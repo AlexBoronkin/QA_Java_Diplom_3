@@ -1,20 +1,23 @@
 package Praktikum.dataForTests;
 
-
-
-public class User {
+public class Login {
 
     private String email;
     private String password;
-    private String name;
 
-
-    public User(String email, String password, String name) {
+    public Login(String email, String password) {
         this.email = email;
         this.password = password;
-        this.name = name;
     }
 
+    public static Login from (User user) {
+        return new Login(user.getEmail(), user.getPassword());
+    }
+
+    public Login(User user) {
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+    }
 
     public String getEmail() {
         return email;
@@ -31,15 +34,4 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-
 }

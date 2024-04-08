@@ -1,6 +1,8 @@
 package Praktikum;
 
 import Praktikum.dataForTests.BaseDate;
+import Praktikum.dataForTests.Login;
+import Praktikum.dataForTests.Steps;
 import Praktikum.dataForTests.User;
 import Praktikum.pageObjects.LoginPage;
 import Praktikum.pageObjects.MainPage;
@@ -11,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
+
 import java.time.Duration;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -20,11 +23,15 @@ public class RegistrationPageTest {
 
     private WebDriver driver;
     protected String accessToken;
-    User user;
     MainPage objMainPage;
     RegistrationPage objRegistrationPage;
     LoginPage objLoginPage;
+
     WebDriverSelection chooseDriver = new WebDriverSelection();
+
+    Steps steps;
+    Login login;
+
 
     @Before
     public void setUp() {
@@ -36,6 +43,7 @@ public class RegistrationPageTest {
         objLoginPage = new LoginPage(driver);
         objLoginPage.clickRegistrationButton();
         objRegistrationPage = new RegistrationPage(driver);
+        steps = new Steps();
     }
 
 
@@ -50,16 +58,22 @@ public class RegistrationPageTest {
     @Test
     @DisplayName("Проверяем корректную успешную регистрацию")
     public void createUserCorrectTest() {
-        objRegistrationPage.registration("Telep", "tetivochka@yandex.ru", "1234567");
+        User user = new User("YaUstalTestirovatt@gmail.com", "12345678", "AAAAghjty");
+        objRegistrationPage.registration(user.getName(), user.getEmail(), user.getPassword());
+        login = new Login(user.getEmail(), user.getPassword());
+        accessToken = steps.loginUser(login).extract().path("accessToken");
+
         objLoginPage.expectEnterText();
         String enterText = objLoginPage.getEnterText();
         assertThat(enterText, is("Вход"));
+
     }
 
     @After
-    public void teardown() {
-        driver.quit();
-    }
+    public void CleanUp() {
+            steps.deleteUser(accessToken);
+            driver.quit();
+        }
 
 
 

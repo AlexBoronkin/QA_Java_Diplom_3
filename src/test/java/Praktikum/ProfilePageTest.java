@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
 import java.time.Duration;
-import Praktikum.dataForTests.BaseDate.*;
 import static Praktikum.dataForTests.BaseDate.EMAIL_FOR_TEST;
 import static Praktikum.dataForTests.BaseDate.PASSWORD_FOR_TEST;
 import static org.hamcrest.CoreMatchers.is;
